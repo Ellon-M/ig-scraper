@@ -1,0 +1,30 @@
+{
+  "name": "instagram-story-robot",
+  "version": "1.0.0",
+  "description": "IG story-robot",
+  "main": "index.js",
+  "repository": "https://github.com/mmjee/instagram-story-robot.git",
+  "license": "GPL-3.0-or-later",
+  "private": false,
+  "scripts": {
+    "dev": "NODE_PATH=. nodemon -e js,toml -- --inspect=127.0.0.1:9251 index.js",
+    "start": "NODE_PATH=. NODE_ENV=production node index.js"
+  },
+  "dependencies": {
+    "download": "^8.0.0",
+    "instagram-private-api": "git+https://github.com/alecshoppe/instagram-private-api.git#40606bda564161a81a0637527cbf3ad7048b7473",
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
+    "toml": "^3.0.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "nodemon": "^2.0.12"
+  }
+}
