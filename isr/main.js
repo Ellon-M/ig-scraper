@@ -1,21 +1,22 @@
-const fs = require('fs').promises
-const path = require('path')
-const Config = require('../isr/config')
+const fs = require('fs').promises;
+const path = require('path');
+const Config = require('../isr/config');
 
-const winston = require('winston')
-const InstagramManager = require('../isr/instagram')
+const winston = require('winston');
+const InstagramManager = require('../isr/instagram');
 
-const configFilePath = Config.TimestampFile || 'next_execution_timestamp'
+const configFilePath = Config.TimestampFile || 'next_execution_timestamp';
 
 async function executeScrape (time) {
-  const timeNow = new Date()
+  const timeNow = new Date();
   await Promise.all(Config.Targets.targets.map(async un => {
     winston.info({
       message: 'Started scraping',
       username: un
-    })
+    });
 
-    let folderPth
+    let folderPth;
+
     if (Config.FolderFormat === 1) {
       folderPth = path.join(
         Config.BaseFolder,
@@ -31,8 +32,8 @@ async function executeScrape (time) {
         `${timeNow.getDate().toString()}/`
       )
     } else {
-      winston.error('Invalid Folder Format found: ' + Config.FolderFormat)
-      process.exit(11)
+      winston.error('Invalid Folder Format found: ' + Config.FolderFormat);
+      process.exit(11);
     }
     await InstagramManager.scrapeStories(un, folderPth)
     winston.info({
@@ -41,29 +42,29 @@ async function executeScrape (time) {
     })
   }))
 
-  const nextTicker = time + (24 * 60 * 60 * 1000)
-  const b = Buffer.alloc(8)
-  b.writeDoubleLE(nextTicker)
-  await fs.writeFile(configFilePath, b)
-  setTimeout(() => executeScrape(nextTicker), nextTicker - Date.now())
+  const nextTicker = time + (24 * 60 * 60 * 1000);
+  const b = Buffer.alloc(8);
+  b.writeDoubleLE(nextTicker);
+  await fs.writeFile(configFilePath, b);
+  setTimeout(() => executeScrape(nextTicker), nextTicker - Date.now());
 }
 
 async function main () {
-  await InstagramManager.initialize()
+  await InstagramManager.initialize();
 
-  winston.info('Instagram initialized!')
+  winston.info('Instagram initialized!');
   try {
-    await fs.access(configFilePath)
+    await fs.access(configFilePath);
   } catch (e) {
-    await executeScrape(Date.now())
+    await executeScrape(Date.now());
     return
   }
 
-  const nextTick = (await fs.readFile(configFilePath)).readDoubleLE()
-  const timeRemaining = nextTick - Date.now()
+  const nextTick = (await fs.readFile(configFilePath)).readDoubleLE();
+  const timeRemaining = nextTick - Date.now();
   // console.info('Time remaining till next tick:', timeRemaining)
 
-  setTimeout(() => executeScrape(nextTick), timeRemaining)
+  setTimeout(() => executeScrape(nextTick), timeRemaining);
 }
 
-main().catch(e => console.error(e))
+main().catch(e => console.error(e));

@@ -187,3 +187,5 @@ dist
 
 config.toml
 next_execution_timestamp
+
+storydata/
