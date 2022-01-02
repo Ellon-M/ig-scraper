@@ -1,9 +1,9 @@
 const fs = require('fs').promises;
 const path = require('path');
-const Config = require('../isr/config');
+const Config = require('./config');
 
 const winston = require('winston');
-const InstagramManager = require('../isr/instagram');
+const InstagramManager = require('./instagram');
 
 const configFilePath = Config.TimestampFile || 'next_execution_timestamp';
 
@@ -62,7 +62,9 @@ async function main () {
 
   const nextTick = (await fs.readFile(configFilePath)).readDoubleLE();
   const timeRemaining = nextTick - Date.now();
-  // console.info('Time remaining till next tick:', timeRemaining)
+
+  // service will not run until 24 hours are complete
+  console.info('Time remaining till next tick:', timeRemaining);
 
   setTimeout(() => executeScrape(nextTick), timeRemaining);
 }
