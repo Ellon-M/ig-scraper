@@ -1,1 +1,1 @@
-const stories = require('./isr/feed.js')
+const feed = require('./isr/feed.js')
