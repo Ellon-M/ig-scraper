@@ -17,3 +17,7 @@ Password = 'Password'
 [Targets]
 # Usernames of targets
 targets = ['foo', 'bar', 'baz']
+
+# username of target
+[FeedTarget]
+target = ''
