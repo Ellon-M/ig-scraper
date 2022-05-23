@@ -1,0 +1,1 @@
+const stories = require('./isr/feed.js')

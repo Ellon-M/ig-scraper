@@ -1,1 +1,1 @@
-require('./isr/stories')
+const stories = require('./isr/stories.js')

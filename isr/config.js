@@ -11,7 +11,7 @@ const winston = require('winston');
 // turning our toml file into a javascript object
 let Cfg = {};
 {
-  const fp = fs.readFileSync('../config.toml').toString();
+  const fp = fs.readFileSync('./config.toml').toString();
   Cfg = toml.parse(fp);
 }
 
